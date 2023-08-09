@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -43,8 +46,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
-apply(from = rootProject.file("github.properties"))
-
 project.afterEvaluate {
     publishing {
         publications {
@@ -52,8 +53,8 @@ project.afterEvaluate {
             fun getProperty(key: String): String {
                 return findProperty(key)?.toString() ?: error("Failed to find property for $key")
             }
-            create<MavenPublication>("gpr"){
-                from(components.getByName("release"))
+            create<MavenPublication>("maven") {
+                artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
                 groupId = getProperty("LIBRARY_GROUP")
                 artifactId = "network-client"
                 version = getProperty("LIBRARY_VERSION")
@@ -61,11 +62,21 @@ project.afterEvaluate {
         }
         repositories {
             maven {
+                val githubProperties = Properties()
+                if (file("${project.rootDir}/github.properties").exists()) {
+                    try {
+                        githubProperties.load(FileInputStream(file("${project.rootDir}/github.properties")))
+                    } catch (e: Exception) {
+                        println(e.toString())
+                    }
+                }
+
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/rahulabrol/NetworkClient")
                 credentials {
-                    username = project.findProperty("ext.usr").toString()
-                    password = project.findProperty("ext.key").toString()
+                    username = githubProperties["gpr.usr"]?.toString() ?: System.getenv("GPR_USER")
+                    password =
+                        githubProperties["gpr.key"]?.toString() ?: System.getenv("GPR_API_KEY")
                 }
             }
         }
