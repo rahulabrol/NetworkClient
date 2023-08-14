@@ -74,9 +74,9 @@ project.afterEvaluate {
             }
             create<MavenPublication>("maven") {
                 artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
-                groupId = getProperty("LIBRARY_GROUP")
-                artifactId = "network-client"
-                version = getProperty("LIBRARY_VERSION")
+                groupId = getProperty("GROUP")
+                artifactId = getProperty("POM_ARTIFACT_ID")
+                version = getProperty("VERSION_NAME")
             }
         }
         repositories {
