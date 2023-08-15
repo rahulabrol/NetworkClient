@@ -5,13 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.rahul.networkclient"
+    namespace = "com.rahul.clevertap"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.rahul.networkclient"
         minSdk = 24
-        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -30,10 +28,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions.apply {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     kotlinOptions {
@@ -64,5 +58,5 @@ dependencies {
     kapt("com.github.bumptech.glide:compiler:4.9.0")
 
     // network client
-    implementation("com.rahulabrol:network-client:0.0.3")
+    implementation("com.rahulabrol:network-client:0.0.4")
 }

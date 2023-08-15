@@ -11,7 +11,7 @@ import javax.inject.Inject
  * Created by abrol at 09/08/23.
  */
 @HiltViewModel
-class DogViewModel @Inject constructor(networkClient) : ViewModel() {
+class DogViewModel @Inject constructor() : ViewModel() {
 
     private val nextImageLiveData: MutableLiveData<String> = MutableLiveData<String>()
     private val prevImageLiveData: MutableLiveData<String> = MutableLiveData<String>()
